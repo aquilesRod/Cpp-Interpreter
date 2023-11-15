@@ -18,7 +18,7 @@ public class ReservedWorld {
 	public static final String RESERVEDWORLD_RETURN = "return";
 	public static final String RESERVEDWORLD_MAIN = "main";
 
-	// 
+	// Libraries
 	public static final String RESERVEDWORLD_PRINTF = "printf";
 	public static final String RESERVEDWORLD_SCANF = "scanf";
 	public static final String RESERVEDWORLD_INCLUDE = "include";

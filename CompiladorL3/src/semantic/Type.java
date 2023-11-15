@@ -25,11 +25,11 @@ public class Type {
 		}
 	   
 	    public static int checkIfVariableTypeIsValid(Token token) {
-	    	if ("int".equals(token.getLexema())) {
+	    	if ("int".equals(token.getLexeme())) {
 				return intType;
-			} else if ("float".equals(token.getLexema())) {
+			} else if ("float".equals(token.getLexeme())) {
 				return realType;
-			} else if("char".equals(token.getLexema())) {
+			} else if("char".equals(token.getLexeme())) {
 				return charType;
 			}
 	    	return -1;

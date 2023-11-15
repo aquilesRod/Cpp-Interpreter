@@ -1,61 +1,62 @@
 package compiladorl3.lexical;
 
 public class Token {
-    public static int TIPO_INTEIRO = 0;
-    public static int TIPO_REAL = 1;
-    public static int TIPO_CHAR = 2;
-    public static int TIPO_IDENTIFICADOR = 3;
-    public static int TIPO_OPERADOR_RELACIONAL = 4;
-    public static int TIPO_OPERADOR_ARITMETICO = 5;
-    public static int TIPO_CARACTER_ESPECIAL = 6;
-    public static int TIPO_PALAVRA_RESERVADA = 7;
-    public static int TIPO_OPERADOR_DE_ATRIBUICAO = 8;
-    public static int TIPO_TOKEN_BRUNO= 77;
-    public static int TIPO_TOKEN_AQUILES = 88;
-    public static int TIPO_FIM_CODIGO = 99;
+
+    public static int TYPE_INT = 0;
+    public static int TYPE_FLOAT = 1;
+    public static int TYPE_CHAR = 2;
+    public static int TYPE_IDENTIFIER = 3;
+    public static int TYPE_RELATIONAL_OPERATOR = 4;
+    public static int TYPE_ARITHMETIC_OPERATOR = 5;
+    public static int TYPE_SPECIAL_CHARACTER = 6;
+    public static int TYPE_RESERVED_WORLD = 7;
+    public static int TYPE_ASSIGNMENT_OPERATOR = 8;
+    public static int TYPE_BRUNO_TOKEN= 77;
+    public static int TIPO_AQUILES_TOKEN = 88;
+    public static int TYPE_END_OF_CODE = 99;
     
-    private int tipo; //tipo do token
-    private String lexema; //conteúdo do token
+    private int type;
+    private String lexeme;
     
-    public Token(String lexema, int tipo){
-        this.lexema = lexema;
-        this.tipo = tipo;
+    public Token(String lexeme, int type){
+        this.lexeme = lexeme;
+        this.type = type;
     }
     
-    public String getLexema(){
-        return this.lexema;
+    public String getLexeme(){
+        return this.lexeme;
     }
     
-    public int getTipo(){
-        return this.tipo;
+    public int getType(){
+        return this.type;
     }
     
     @Override
     public String toString()
     {
-        switch(this.tipo){
+        switch(this.type){
             case 0:
-                return this.lexema + " - INTEIRO" ;
+                return this.lexeme + " - INTEIRO" ;
             case 1:
-                return this.lexema + " - REAL";
+                return this.lexeme + " - REAL";
             case 2:
-                return this.lexema + " - CHAR";
+                return this.lexeme + " - CHAR";
             case 3:
-                return this.lexema + " - IDENTIFICADOR";
+                return this.lexeme + " - IDENTIFICADOR";
             case 4:
-                return this.lexema + " - OPERADOR_RELACIONAL";
+                return this.lexeme + " - OPERADOR_RELACIONAL";
             case 5:
-                return this.lexema + " - OPERADOR_ARITMETICO";
+                return this.lexeme + " - OPERADOR_ARITMETICO";
             case 6:
-                return this.lexema + " - CARACTER_ESPECIAL";
+                return this.lexeme + " - CARACTER_ESPECIAL";
             case 7:
-                return this.lexema + " - PALAVRA_RESERVADA";
+                return this.lexeme + " - PALAVRA_RESERVADA";
             case 8:
-            	return this.lexema + " - OPERADOR_DE_ATRIBUICAO";
+            	return this.lexeme + " - OPERADOR_DE_ATRIBUICAO";
             case 88:
-            	return this.lexema + " - TOKEN_AQUILES";
+            	return this.lexeme + " - TOKEN_AQUILES";
             case 99:
-                return this.lexema + " - FIM_CODIGO";    
+                return this.lexeme + " - FIM_CODIGO";    
         }
         return "";
     }

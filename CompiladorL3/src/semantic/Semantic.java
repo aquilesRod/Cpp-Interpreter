@@ -44,7 +44,7 @@ public class Semantic {
 		} else if (isAnIdentifier(token) && !theDecisionMakingArrayIsFull()) {
 			addTokensForDecisionMaking(token);
 			return;
-		} else if (!theDecisionMakingArrayIsFull() && !(token.getLexema().equals(";"))) {
+		} else if (!theDecisionMakingArrayIsFull() && !(token.getLexeme().equals(";"))) {
 			addTokensForDecisionMaking(token);
 			return;
 		} else if (this.state == 0) {
@@ -55,24 +55,24 @@ public class Semantic {
 	}
 
 	private boolean isAnCloseKey(Token token) {
-		return token.getLexema().equals("}");
+		return token.getLexeme().equals("}");
 	}
 
 	private boolean isAnOpenKey(Token token) {
-		return token.getLexema().equals("{");
+		return token.getLexeme().equals("{");
 	}
 
 	private boolean isAnVariableType(Token token) {
-		return token.getLexema().equals("int")||token.getLexema().equals("char") || token.getLexema().equals("float");
+		return token.getLexeme().equals("int")||token.getLexeme().equals("char") || token.getLexeme().equals("float");
 	}
 
 	private boolean isAnIdentifier(Token token) {
-		return token.getTipo() == 3;
+		return token.getType() == 3;
 	}
 
 	public boolean tokenIsAnUninitializedVariable(Token currentToken) {
 		for (SDeclarationChecker sDeclarationChecker : declarationCheckers) {
-			if (sDeclarationChecker.getCurrentDeclarationName().equals(currentToken.getLexema())) {
+			if (sDeclarationChecker.getCurrentDeclarationName().equals(currentToken.getLexeme())) {
 				this.currentSDeclarationChecker = sDeclarationChecker;
 				return true;
 			}
@@ -108,7 +108,7 @@ public class Semantic {
 
 	private boolean isOperation() {
 		if(last2TokensIsDeclarationOrOperation[1] != null) {
-			return last2TokensIsDeclarationOrOperation[1].getTipo() == 5 || last2TokensIsDeclarationOrOperation[1].getTipo() == 4 ;
+			return last2TokensIsDeclarationOrOperation[1].getType() == 5 || last2TokensIsDeclarationOrOperation[1].getType() == 4 ;
 		}
 		return false;
 	}

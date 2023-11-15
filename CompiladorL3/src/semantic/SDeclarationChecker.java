@@ -24,7 +24,7 @@ public class SDeclarationChecker  {
 	}
 
 	public boolean checkIF(Token currentToken) throws Exception {
-		if (currentToken.getLexema().equals(getCurrentDeclarationName())) {
+		if (currentToken.getLexeme().equals(getCurrentDeclarationName())) {
 			addPartOfVariableDeclaration(currentToken);
 			return true;
 		}
@@ -34,21 +34,21 @@ public class SDeclarationChecker  {
 	public void addPartOfVariableDeclaration(Token currentPart) throws Exception {
 
 		if (isVariableType(currentPart) && currentVariableDeclaration.size() == 0 ) {
-			currentVariableDeclaration.add(currentPart.getLexema());
+			currentVariableDeclaration.add(currentPart.getLexeme());
 		} else if (hasTheVarTypeAlreadyBeenEntered() && isAValidIdentifier(currentPart) && currentVariableDeclaration.size() == 1) {
-			currentVariableDeclaration.add(currentPart.getLexema());
+			currentVariableDeclaration.add(currentPart.getLexeme());
 		} else if (hasTheVarIdentifierAlreadyBeenEntered() && isADeclarationTerminator(currentPart)  && currentVariableDeclaration.size() == 2) {
 			setNotInitializedStatusToDeclaration();
 		} else if (hasTheVarIdentifierAlreadyBeenEntered() && isAnAssignment(currentPart)  && currentVariableDeclaration.size() == 2) {
-			currentVariableDeclaration.add(currentPart.getLexema());
+			currentVariableDeclaration.add(currentPart.getLexeme());
 		} else if (hasTheAssignmentAlreadyBeenEntered() && checkIfTheValueTypeMatchesTheVarType(currentPart)) {
-			currentVariableDeclaration.add(currentPart.getLexema());
+			currentVariableDeclaration.add(currentPart.getLexeme());
 		} else if(isAVariableToCombine(currentPart)) {
-			currentVariableDeclaration.add(currentPart.getLexema());
+			currentVariableDeclaration.add(currentPart.getLexeme());
 		} else if (isAnArithmeticOperator(currentPart)) {
-			currentVariableDeclaration.add(currentPart.getLexema());
+			currentVariableDeclaration.add(currentPart.getLexeme());
 		} else if (hasTheValueAlreadyBeenEntered() && isADeclarationTerminator(currentPart)) {
-			currentVariableDeclaration.add(currentPart.getLexema());
+			currentVariableDeclaration.add(currentPart.getLexeme());
 			setInitializedStatusToDeclaration();
 		} else {
 			throw new Exception("Finish the variable declaration: '" + this.toString() + "' <-");
@@ -88,8 +88,8 @@ public class SDeclarationChecker  {
 
 	private boolean checkOperationsBetweenVariables(Token currentPart) {
 
-		if(currentPart.getTipo() == 3) {
-			Variable compositionVar = currentScope.getVariable(currentPart.getLexema());
+		if(currentPart.getType() == 3) {
+			Variable compositionVar = currentScope.getVariable(currentPart.getLexeme());
 
 			if (compositionVar == null) {
 				return false;
@@ -154,43 +154,43 @@ public class SDeclarationChecker  {
 	}
 
 	private boolean isValueInt(Token currentPart) {
-		return currentPart.getTipo() == 0;
+		return currentPart.getType() == 0;
 	}
 
 	public boolean isAnArithmeticOperator(Token currentPart) {
-		return currentPart.getTipo() == 5;
+		return currentPart.getType() == 5;
 	}
 	private boolean isAnArithmeticOperator(char c){
 		return c == '+' || c == '-' || c == '*' || c == '/';
 	}
 	private boolean isValueReal(Token currentPart) {
 
-		return currentPart.getTipo() == 1;
+		return currentPart.getType() == 1;
 	}
 
 	private boolean isValueChar(Token currentPart) {
 
-		return currentPart.getTipo() == 2;
+		return currentPart.getType() == 2;
 	}
 
 	private boolean isADeclarationTerminator(Token currentPart) throws Exception {
-		return currentPart.getLexema().equals(";");
+		return currentPart.getLexeme().equals(";");
 	}
 
 	private boolean isAnAssignment(Token currentPart) {
-		return currentPart.getTipo() == 8;
+		return currentPart.getType() == 8;
 	}
 
 	private boolean isAValidIdentifier(Token currentPart) throws Exception {
-		if(this.currentScope.getVariable(currentPart.getLexema()) != null) {
+		if(this.currentScope.getVariable(currentPart.getLexeme()) != null) {
 			throw new Exception(
-					"Variable already exists: '" + currentPart.getLexema() + "' <-");
+					"Variable already exists: '" + currentPart.getLexeme() + "' <-");
 		}
-		return currentPart.getTipo() == 3;
+		return currentPart.getType() == 3;
 	}
 	
 	private boolean isAnIdentifier(Token currentPart) throws Exception {
-		return currentPart.getTipo() == 3;
+		return currentPart.getType() == 3;
 	}
 
 	private boolean isVariableType(Token currentPart) {

@@ -6,6 +6,7 @@ import compiladorl3.sintatic.Sintatic;
 import semantic.Semantic;
 
 public class Compiler {
+
 	private Lexical lexicon;
     private Sintatic sintatic;
     private Semantic semantic;
@@ -14,9 +15,11 @@ public class Compiler {
         this.lexicon = new Lexical(codeFilePath);
 
         Token t = null;
+
         while((t = this.lexicon.nextToken()) != null){
             System.out.println(t.toString());
         }
+
         this.lexicon.setIndiceConteudo(0);
     }
     
@@ -34,8 +37,9 @@ public class Compiler {
         Token token = this.lexicon.nextToken();
         token = this.lexicon.nextToken();
 		token = this.lexicon.nextToken();
+        
 		do {
-			if (token.getTipo() != Token.TIPO_FIM_CODIGO)
+			if (token.getType() != Token.TYPE_END_OF_CODE)
 				semanticAnalize(token);
 			
 			//System.out.println(token.toString());
@@ -46,18 +50,18 @@ public class Compiler {
     }
 
     private void semanticAnalize(Token token) throws Exception {
-		if((token.getTipo() != 7 && !token.getLexema().equals("(") &&
-				!token.getLexema().equals(")")) || token.getLexema().equals("int") ||
-				token.getLexema().equals("char") || token.getLexema().equals("float")){
+		if((token.getType() != 7 && !token.getLexeme().equals("(") &&
+				!token.getLexeme().equals(")")) || token.getLexeme().equals("int") ||
+				token.getLexeme().equals("char") || token.getLexeme().equals("float")){
 			this.semantic.runSemantic(token);
 		}
 	}
     
-    public Lexical getLexico() {
+    public Lexical getLexicon() {
 		return this.lexicon;
 	}
 
-    public Sintatic getSintatico() {
+    public Sintatic getSintatic() {
         return this.sintatic;
     }
 

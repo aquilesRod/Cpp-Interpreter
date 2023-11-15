@@ -21,7 +21,7 @@ public class SOperationChecker {
 			this.operationParts.add(currentToken);
 			return;
 		} else if(isAnIdentifier(currentToken) && variableIsInCurrentScope(currentToken) && !haveASameType(currentToken)) {
-			throw new Exception("Operators have differents types in: '" + currentOperationPartsToString() + " " + currentToken.getLexema() + "'");
+			throw new Exception("Operators have differents types in: '" + currentOperationPartsToString() + " " + currentToken.getLexeme() + "'");
 		}
 		
 		this.operationParts.add(currentToken);
@@ -44,14 +44,14 @@ public class SOperationChecker {
 	}
 
 	private boolean haveASameType(Token currentToken) {
-		Variable a = this.semanticSubject.getCurrentScope().getVariable(operationParts.get(0).getLexema());
-		Variable b = this.semanticSubject.getCurrentScope().getVariable(currentToken.getLexema());
+		Variable a = this.semanticSubject.getCurrentScope().getVariable(operationParts.get(0).getLexeme());
+		Variable b = this.semanticSubject.getCurrentScope().getVariable(currentToken.getLexeme());
 		return a.getType().equals(b.getType());
 	}
 
 	private boolean variableIsInCurrentScope(Token currentToken) throws Exception {
-		if(this.semanticSubject.getCurrentScope().getVariable(currentToken.getLexema()) == null) {
-			throw new Exception("Undeclared variable '" + currentToken.getLexema() + "' <-");
+		if(this.semanticSubject.getCurrentScope().getVariable(currentToken.getLexeme()) == null) {
+			throw new Exception("Undeclared variable '" + currentToken.getLexeme() + "' <-");
 		}
 		return true;
 	}
@@ -64,27 +64,27 @@ public class SOperationChecker {
 	private String currentOperationPartsToString() {
 		String toString = "";
 		for (Token currentPart : this.operationParts) {
-			toString += currentPart.getLexema() + " ";
+			toString += currentPart.getLexeme() + " ";
 		}
 		return toString;
 	}
 
 	private boolean isAnIdentifier(Token currentPart) {
-		return currentPart.getTipo() == 3;
+		return currentPart.getType() == 3;
 	}
 
 	private boolean isAnOperator(Token currentPart) {
-		return currentPart.getTipo() == 4 || currentPart.getTipo() == 5;
+		return currentPart.getType() == 4 || currentPart.getType() == 5;
 	}
 
 	private boolean correctLogicalSequence(Token currentPart) {
-		return operationParts.get(operationParts.size() - 1).getTipo() != currentPart.getTipo();
+		return operationParts.get(operationParts.size() - 1).getType() != currentPart.getType();
 	}
 
 	private boolean isAnOperationTerminator(Token currentPart) throws Exception {
 
-		if (currentPart.getLexema().equals(";"))
-			return currentPart.getLexema().equals(";");
+		if (currentPart.getLexeme().equals(";"))
+			return currentPart.getLexeme().equals(";");
 		throw new Exception("Statement not finished: '" + currentOperationPartsToString() + "' <-");
 	}
 }

@@ -73,11 +73,11 @@ public class ArithmeticOperatorTest {
             this.lex = compiler.getLexicon();
 
             assertEquals(1, lex.nextToken().getType());
-        assertEquals(3, lex.nextToken().getType());
-        assertEquals(5, lex.nextToken().getType());
-        assertEquals(5, lex.nextToken().getType());
-        assertEquals(5, lex.nextToken().getType());
-        assertEquals(5, lex.nextToken().getType());
+            assertEquals(3, lex.nextToken().getType());
+            assertEquals(5, lex.nextToken().getType());
+            assertEquals(5, lex.nextToken().getType());
+            assertEquals(5, lex.nextToken().getType());
+            assertEquals(5, lex.nextToken().getType());
         } catch (RuntimeException e) {
             Assert.fail();
         }

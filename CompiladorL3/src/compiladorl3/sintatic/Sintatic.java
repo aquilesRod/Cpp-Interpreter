@@ -13,7 +13,7 @@ public class Sintatic {
         this.lexicalAnalyzer = lexicalAnalyzer;
     }
 
-    public void s() throws Exception {
+    public void analyzeProgram() throws Exception {
         this.token = lexicalAnalyzer.nextToken();
 
         if(!this.token.getLexeme().equals(ReservedWorld.RESERVEDWORLD_INT)) {

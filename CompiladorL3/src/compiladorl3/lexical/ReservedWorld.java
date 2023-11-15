@@ -2,23 +2,30 @@ package compiladorl3.lexical;
 
 public class ReservedWorld {
 	
-	public static final String RESERVEDWORLD_MAIN = "main";
-	public static final String RESERVEDWORLD_IF = "if";
-	public static final String RESERVEDWORLD_ELSE = "else";
-	public static final String RESERVEDWORLD_WHILE = "while";
-	public static final String RESERVEDWORLD_DO = "do";
-	public static final String RESERVEDWORLD_FOR = "for";
+	// Types
 	public static final String RESERVEDWORLD_INT = "int";
 	public static final String RESERVEDWORLD_FLOAT = "float";
 	public static final String RESERVEDWORLD_CHAR = "char";
+
+	// Flow Control
+	public static final String RESERVEDWORLD_IF = "if";
+	public static final String RESERVEDWORLD_ELSE = "else";
+	public static final String RESERVEDWORLD_DO = "do";
+	public static final String RESERVEDWORLD_WHILE = "while";
+	public static final String RESERVEDWORLD_FOR = "for";
+
+	// Function
+	public static final String RESERVEDWORLD_RETURN = "return";
+	public static final String RESERVEDWORLD_MAIN = "main";
+
+	// 
 	public static final String RESERVEDWORLD_PRINTF = "printf";
 	public static final String RESERVEDWORLD_SCANF = "scanf";
 	public static final String RESERVEDWORLD_INCLUDE = "include";
-	public static final String RESERVEDWORLD_RETURN = "return";
 
 	
 	public static boolean isReservedWorld(String world) {
-		
+
 		return world.equals(RESERVEDWORLD_MAIN) ||
 				world.equals(RESERVEDWORLD_IF) || 
 				world.equals(RESERVEDWORLD_ELSE)||

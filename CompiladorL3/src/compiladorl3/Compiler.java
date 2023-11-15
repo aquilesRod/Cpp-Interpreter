@@ -27,7 +27,7 @@ public class Compiler {
         this.lexicon = new Lexical(codeFilePath);
         this.sintatic = new Sintatic(this.lexicon);
 
-        sintatic.s();
+        sintatic.analyzeProgram();
     }
 
     public void runSemantic(String codeFilePath) throws Exception {

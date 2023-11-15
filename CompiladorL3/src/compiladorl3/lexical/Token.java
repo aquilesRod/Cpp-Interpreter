@@ -1,4 +1,4 @@
-package compiladorl3;
+package compiladorl3.lexical;
 
 public class Token {
     public static int TIPO_INTEIRO = 0;

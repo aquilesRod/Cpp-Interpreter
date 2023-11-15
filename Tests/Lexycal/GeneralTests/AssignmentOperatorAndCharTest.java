@@ -10,8 +10,8 @@ import java.io.PrintWriter;
 import org.junit.Assert;
 import org.junit.Test;
 
-import compiladorl3.CompiladorL3;
-import compiladorl3.Lexico;
+import compiladorl3.Compiler;
+import compiladorl3.lexical.Lexical;
 
 public class AssignmentOperatorAndCharTest {
 
@@ -27,9 +27,9 @@ public class AssignmentOperatorAndCharTest {
 		file.close();
 		
 		try {
-			CompiladorL3 c = new CompiladorL3();
+			Compiler c = new Compiler();
 			c.runLexico(path);
-			Lexico lex = c.getLexico();
+			Lexical lex = c.getLexico();
 			
 			assertEquals(2, lex.nextToken().getTipo());
 			assertEquals(2, lex.nextToken().getTipo());
@@ -55,9 +55,9 @@ public class AssignmentOperatorAndCharTest {
 		file.close();
 		
 		try {
-			CompiladorL3 c = new CompiladorL3();
+			Compiler c = new Compiler();
 			c.runLexico(path);
-			Lexico lex = c.getLexico();
+			Lexical lex = c.getLexico();
 			
 			assertEquals(2, lex.nextToken().getTipo());
 			assertEquals(2, lex.nextToken().getTipo());
@@ -85,9 +85,9 @@ public class AssignmentOperatorAndCharTest {
 		file.close();
 		
 		try {
-			CompiladorL3 c = new CompiladorL3();
+			Compiler c = new Compiler();
 			c.runLexico(path);
-			Lexico lex = c.getLexico();
+			Lexical lex = c.getLexico();
 			
 			assertEquals(4, lex.nextToken().getTipo());
 			assertEquals(8, lex.nextToken().getTipo());
@@ -116,9 +116,9 @@ public class AssignmentOperatorAndCharTest {
 		file.close();
 		
 		try {
-			CompiladorL3 c = new CompiladorL3();
+			Compiler c = new Compiler();
 			c.runLexico(path);
-			Lexico lex = c.getLexico();
+			Lexical lex = c.getLexico();
 			
 			assertEquals(3, lex.nextToken().getTipo());
 			assertEquals(8, lex.nextToken().getTipo());

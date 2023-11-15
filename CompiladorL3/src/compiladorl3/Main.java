@@ -4,7 +4,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		String path = "CompiladorL3\\src\\compiladorl3\\codigo.txt";
-		CompiladorL3 c = new CompiladorL3();
+		Compiler c = new Compiler();
 		try {
 			// c.runLexico(path);
 			c.runSintatic(path);

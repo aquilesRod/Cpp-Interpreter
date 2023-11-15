@@ -1,7 +1,7 @@
 package compiladorl3.semantic;
 import java.util.List;
 
-import compiladorl3.Token;
+import compiladorl3.lexical.Token;
 
 public interface ISemantic {
     public List<ISDeclarationChecker> getDeclarationCheckers();

@@ -3,7 +3,7 @@ package semantic;
 import java.util.ArrayList;
 import java.util.List;
 
-import compiladorl3.Token;
+import compiladorl3.lexical.Token;
 
 public class SOperationChecker {
 	private Semantic semanticSubject;

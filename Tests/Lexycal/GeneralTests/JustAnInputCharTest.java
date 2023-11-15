@@ -9,14 +9,14 @@ import java.io.PrintWriter;
 
 import org.junit.Test;
 
-import compiladorl3.CompiladorL3;
-import compiladorl3.Lexico;
+import compiladorl3.Compiler;
+import compiladorl3.lexical.Lexical;
 
 public class JustAnInputCharTest {
     @Test
     public void JustAnIntegerChar() throws Exception {
-        Lexico lex;
-        CompiladorL3 compiler;
+        Lexical lex;
+        Compiler compiler;
         String path = "codigoCompilador.txt";
 		FileWriter file = new FileWriter(path);
 		PrintWriter writeFile = new PrintWriter(file);
@@ -26,7 +26,7 @@ public class JustAnInputCharTest {
         
         file.close();
 
-        compiler = new CompiladorL3();
+        compiler = new Compiler();
 		compiler.runLexico(path);
 		lex = compiler.getLexico();
 
@@ -37,8 +37,8 @@ public class JustAnInputCharTest {
     }
     @Test
     public void JustAnArithmeticOperatorChar() throws Exception {
-        Lexico lex;
-        CompiladorL3 compiler;
+        Lexical lex;
+        Compiler compiler;
         String path = "codigoCompilador.txt";
 		FileWriter file = new FileWriter(path);
 		PrintWriter writeFile = new PrintWriter(file);
@@ -48,7 +48,7 @@ public class JustAnInputCharTest {
         
         file.close();
 
-        compiler = new CompiladorL3();
+        compiler = new Compiler();
 		compiler.runLexico(path);
 		lex = compiler.getLexico();
 
@@ -59,8 +59,8 @@ public class JustAnInputCharTest {
     }
     @Test
     public void JustAnIdentifierOperatorChar() throws Exception {
-        Lexico lex;
-        CompiladorL3 compiler;
+        Lexical lex;
+        Compiler compiler;
         String path = "codigoCompilador.txt";
 		FileWriter file = new FileWriter(path);
 		PrintWriter writeFile = new PrintWriter(file);
@@ -70,7 +70,7 @@ public class JustAnInputCharTest {
         
         file.close();
 
-        compiler = new CompiladorL3();
+        compiler = new Compiler();
 		compiler.runLexico(path);
 		lex = compiler.getLexico();
 
@@ -81,8 +81,8 @@ public class JustAnInputCharTest {
     }
     @Test
     public void JustASpecialCharacterChar() throws Exception {
-        Lexico lex;
-        CompiladorL3 compiler;
+        Lexical lex;
+        Compiler compiler;
         String path = "codigoCompilador.txt";
 		FileWriter file = new FileWriter(path);
 		PrintWriter writeFile = new PrintWriter(file);
@@ -92,7 +92,7 @@ public class JustAnInputCharTest {
         
         file.close();
 
-        compiler = new CompiladorL3();
+        compiler = new Compiler();
 		compiler.runLexico(path);
 		lex = compiler.getLexico();
 
@@ -103,8 +103,8 @@ public class JustAnInputCharTest {
     }
     @Test
     public void JustARelationalOperatorChar() throws Exception {
-        Lexico lex;
-        CompiladorL3 compiler;
+        Lexical lex;
+        Compiler compiler;
         String path = "codigoCompilador.txt";
 		FileWriter file = new FileWriter(path);
 		PrintWriter writeFile = new PrintWriter(file);
@@ -114,7 +114,7 @@ public class JustAnInputCharTest {
         
         file.close();
 
-        compiler = new CompiladorL3();
+        compiler = new Compiler();
 		compiler.runLexico(path);
 		lex = compiler.getLexico();
 
@@ -126,8 +126,8 @@ public class JustAnInputCharTest {
 
     @Test
     public void JustAAssignmentOperatorChar() throws Exception {
-        Lexico lex;
-        CompiladorL3 compiler;
+        Lexical lex;
+        Compiler compiler;
         String path = "codigoCompilador.txt";
 		FileWriter file = new FileWriter(path);
 		PrintWriter writeFile = new PrintWriter(file);
@@ -137,7 +137,7 @@ public class JustAnInputCharTest {
         
         file.close();
 
-        compiler = new CompiladorL3();
+        compiler = new Compiler();
 		compiler.runLexico(path);
 		lex = compiler.getLexico();
 

@@ -1,15 +1,15 @@
-package compiladorl3;
+package compiladorl3.lexical;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
 
-public class Lexico {
+public class Lexical {
 	private char[] conteudo;
 	private int indiceConteudo;
 
-	public Lexico(String caminhoCodigoFonte) {
+	public Lexical(String caminhoCodigoFonte) {
 		try {
 			String conteudoStr;
 			conteudoStr = new String(Files.readAllBytes(Paths.get(caminhoCodigoFonte)));

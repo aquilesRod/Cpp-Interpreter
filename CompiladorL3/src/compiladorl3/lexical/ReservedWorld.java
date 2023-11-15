@@ -1,4 +1,4 @@
-package compiladorl3;
+package compiladorl3.lexical;
 
 public class ReservedWorld {
 	

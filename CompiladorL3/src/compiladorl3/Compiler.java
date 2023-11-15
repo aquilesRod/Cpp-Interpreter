@@ -1,47 +1,48 @@
 package compiladorl3;
 
+import compiladorl3.lexical.Lexical;
+import compiladorl3.lexical.Token;
+import compiladorl3.sintatic.Sintatic;
 import semantic.Semantic;
 
-public class CompiladorL3 {
-	private Lexico lexico;
-    private Sintatico sintatico;
+public class Compiler {
+	private Lexical lexicon;
+    private Sintatic sintatic;
     private Semantic semantic;
 
     public void runLexico(String codeFilePath) throws Exception {
-        this.lexico = new Lexico(codeFilePath);
+        this.lexicon = new Lexical(codeFilePath);
 
         Token t = null;
-        while((t = this.lexico.nextToken()) != null){
+        while((t = this.lexicon.nextToken()) != null){
             System.out.println(t.toString());
         }
-        this.lexico.setIndiceConteudo(0);
+        this.lexicon.setIndiceConteudo(0);
     }
     
     public void runSintatic(String codeFilePath) throws Exception {
-        this.lexico = new Lexico(codeFilePath);
-        this.sintatico = new Sintatico(this.lexico);
+        this.lexicon = new Lexical(codeFilePath);
+        this.sintatic = new Sintatic(this.lexicon);
 
-        sintatico.s();
+        sintatic.s();
     }
 
     public void runSemantic(String codeFilePath) throws Exception {
-		this.lexico = new Lexico(codeFilePath);
+		this.lexicon = new Lexical(codeFilePath);
 		this.semantic = new Semantic();
         
-        Token token = this.lexico.nextToken();
-        token = this.lexico.nextToken();
-		token = this.lexico.nextToken();
+        Token token = this.lexicon.nextToken();
+        token = this.lexicon.nextToken();
+		token = this.lexicon.nextToken();
 		do {
 			if (token.getTipo() != Token.TIPO_FIM_CODIGO)
 				semanticAnalize(token);
 			
 			//System.out.println(token.toString());
-			token = this.lexico.nextToken();
+			token = this.lexicon.nextToken();
 		} while (token != null);
 		
-		this.lexico.setIndiceConteudo(0);
-
-
+		this.lexicon.setIndiceConteudo(0);
     }
 
     private void semanticAnalize(Token token) throws Exception {
@@ -52,12 +53,12 @@ public class CompiladorL3 {
 		}
 	}
     
-    public Lexico getLexico() {
-		return this.lexico;
+    public Lexical getLexico() {
+		return this.lexicon;
 	}
 
-    public Sintatico getSintatico() {
-        return this.sintatico;
+    public Sintatic getSintatico() {
+        return this.sintatic;
     }
 
 }

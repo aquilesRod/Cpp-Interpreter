@@ -1,7 +1,7 @@
 package Sintatic;
 
-import compiladorl3.CompiladorL3;
-import compiladorl3.Sintatico;
+import compiladorl3.Compiler;
+import compiladorl3.sintatic.Sintatic;
 
 import org.junit.*;
 
@@ -16,14 +16,14 @@ import java.io.PrintWriter;
 
 public class ExpressionTest {
 
-    public CompiladorL3 compiler;
+    public Compiler compiler;
     public FileWriter file;
     public PrintWriter writeFile;
     public String path;
 
     @Before
     public void setUp() throws IOException {
-        this.compiler = new CompiladorL3();
+        this.compiler = new Compiler();
         this.path = "codigoCompiladorTeste.txt";
         this.file = new FileWriter(this.path);
         this.writeFile = new PrintWriter(this.file);

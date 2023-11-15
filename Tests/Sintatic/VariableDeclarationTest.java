@@ -1,7 +1,7 @@
 package Sintatic;
 
-import compiladorl3.CompiladorL3;
-import compiladorl3.Sintatico;
+import compiladorl3.Compiler;
+import compiladorl3.sintatic.Sintatic;
 
 import org.junit.*;
 
@@ -16,14 +16,14 @@ import java.io.PrintWriter;
 
 public class VariableDeclarationTest {
 
-    public CompiladorL3 compiler;
+    public Compiler compiler;
     public FileWriter file;
     public PrintWriter writeFile;
     public String path;
 
     @Before
     public void setUp() throws IOException {
-        this.compiler = new CompiladorL3();
+        this.compiler = new Compiler();
         this.path = "codigoCompiladorTeste.txt";
         this.file = new FileWriter(this.path);
         this.writeFile = new PrintWriter(this.file);
@@ -38,7 +38,7 @@ public class VariableDeclarationTest {
     @Test
     public void correctSyntaxTest() throws Exception {
         this.writeFile.printf("int main (){\n\t");
-        this.writeFile.printf("a = 365;\n");
+        this.writeFile.printf("int a = 10;\n");
         this.writeFile.printf("}$");
         this.file.close();
 
@@ -52,7 +52,8 @@ public class VariableDeclarationTest {
     @Test
     public void withoutReceivedValueTest() throws Exception {
         this.writeFile.printf("int main (){\n\t");
-        this.writeFile.printf("a = ;\n");
+        this.writeFile.printf("int b;\n");
+        this.writeFile.printf("b = ;\n");
         this.writeFile.printf("}$");
         this.file.close();
 

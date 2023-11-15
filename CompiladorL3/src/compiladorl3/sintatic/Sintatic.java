@@ -1,10 +1,14 @@
-package compiladorl3;
+package compiladorl3.sintatic;
 
-public class Sintatico {
-    private Lexico lexicalAnalyzer;
+import compiladorl3.lexical.Lexical;
+import compiladorl3.lexical.ReservedWorld;
+import compiladorl3.lexical.Token;
+
+public class Sintatic {
+    private Lexical lexicalAnalyzer;
     private Token token;
 
-    public Sintatico(Lexico lexicalAnalyzer) {
+    public Sintatic(Lexical lexicalAnalyzer) {
         this.lexicalAnalyzer = lexicalAnalyzer;
     }
 
@@ -50,7 +54,7 @@ public class Sintatico {
         this.token = this.lexicalAnalyzer.nextToken();
         
         this.InvalidMethod();
-        this.goToDeclaretionOrComand();
+        this.goToDeclarationOrComand();
         
         if(!this.token.getLexema().equals("}")) {
             throw new RuntimeException("Como você é burro cara! Fecha as chaves do método.");
@@ -117,7 +121,7 @@ public class Sintatico {
         }
     }
 
-    private void goToDeclaretionOrComand() throws Exception {
+    private void goToDeclarationOrComand() throws Exception {
         if(ReservedWorld.isReservedWorld(this.token.getLexema()) || this.token.getLexema().equals("{") || isComand()) {
 
             if(this.token.getLexema().equals(ReservedWorld.RESERVEDWORLD_RETURN)) {
@@ -133,12 +137,12 @@ public class Sintatico {
                 return;
             }
 
-            this.declaretaionOrComand();
-            this.goToDeclaretionOrComand();
+            this.declarationOrComand();
+            this.goToDeclarationOrComand();
         }
     }
 
-    private void declaretaionOrComand() throws Exception {
+    private void declarationOrComand() throws Exception {
         if(ReservedWorld.isType(this.token.getLexema())) {
             this.declarationVariables();
         } else if (isComand()) {
@@ -233,9 +237,14 @@ public class Sintatico {
         // if(token.getLexema().equalsIgnoreCase(",")){
         //     this.declarationVariables();
         // }
+        
+        if(this.token.getTipo() == Token.TIPO_OPERADOR_DE_ATRIBUICAO) {
+            this.token = lexicalAnalyzer.nextToken();
+            this.arithmeticExpression();
+        }
 
         if(!this.token.getLexema().equalsIgnoreCase(";")) {
-            throw new RuntimeException("Eeeeeeeeei bença? Tu vai finalizar a declação de variavel não?");
+            throw new RuntimeException("Eeeeeeeeei bença? Tu vai finalizar a declação de variavel não? "+this.token.getLexema());
         }
 
         this.token = lexicalAnalyzer.nextToken();

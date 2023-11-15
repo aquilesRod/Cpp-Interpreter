@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-import compiladorl3.Token;
+import compiladorl3.lexical.Token;
 
 public class Semantic {
 	private int state; // 1 - declaration, 2 - operation

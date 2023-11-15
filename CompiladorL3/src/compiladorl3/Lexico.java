@@ -59,7 +59,7 @@ public class Lexico {
 				if (isPartOfAnIdentifier(currentChar)) {
 					lexema.append(currentChar);
 					//Modificado por @C03lh0
-					if(isReservedWorld(lexema.toString())) {
+					if(ReservedWorld.isReservedWorld(lexema.toString())) {
 						return new Token(lexema.toString(), Token.TIPO_PALAVRA_RESERVADA);
 					} else if (!this.hasNextChar()) {
 						return new Token(lexema.toString(), Token.TIPO_IDENTIFICADOR);
@@ -259,11 +259,6 @@ public class Lexico {
 
 	public void setIndiceConteudo(int indiceConteudo) {
 		this.indiceConteudo = indiceConteudo;
-	}
-	
-	private boolean isReservedWorld(String world) {
-		ReservedWorld reservedWorld = new ReservedWorld(world);
-		return reservedWorld.EqualsReservedWorld();
 	}
 
 	private boolean isADoublyArithmeticOperator(char c, StringBuffer lex){

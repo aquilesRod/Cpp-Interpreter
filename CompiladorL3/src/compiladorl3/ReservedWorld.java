@@ -1,42 +1,43 @@
 package compiladorl3;
 
 public class ReservedWorld {
-	private String reservedWorld;
 	
-	private final String RESERVEDWORLD_MAIN = "main";
-	private final String RESERVEDWORLD_IF = "if";
-	private final String RESERVEDWORLD_ELSE = "else";
-	private final String RESERVEDWORLD_WHILE = "while";
-	private final String RESERVEDWORLD_DO = "do";
-	private final String RESERVEDWORLD_FOR = "for";
-	private final String RESERVEDWORLD_INT = "int";
-	private final String RESERVEDWORLD_FLOAT = "float";
-	private final String RESERVEDWORLD_CHAR = "char";
-	private final String RESERVEDWORLD_PRINTF = "printf";
-	private final String RESERVEDWORLD_SCANF = "scanf";
-	private final String RESERVEDWORLD_INCLUDE = "include";
-	private final String RESERVEDWORLD_RETURN = "return";
+	public static final String RESERVEDWORLD_MAIN = "main";
+	public static final String RESERVEDWORLD_IF = "if";
+	public static final String RESERVEDWORLD_ELSE = "else";
+	public static final String RESERVEDWORLD_WHILE = "while";
+	public static final String RESERVEDWORLD_DO = "do";
+	public static final String RESERVEDWORLD_FOR = "for";
+	public static final String RESERVEDWORLD_INT = "int";
+	public static final String RESERVEDWORLD_FLOAT = "float";
+	public static final String RESERVEDWORLD_CHAR = "char";
+	public static final String RESERVEDWORLD_PRINTF = "printf";
+	public static final String RESERVEDWORLD_SCANF = "scanf";
+	public static final String RESERVEDWORLD_INCLUDE = "include";
+	public static final String RESERVEDWORLD_RETURN = "return";
+
 	
-	public ReservedWorld(String reservedWorld) {
-		this.reservedWorld = reservedWorld;
-	}
-	
-	
-	public boolean EqualsReservedWorld() {
+	public static boolean isReservedWorld(String world) {
 		
-		return this.reservedWorld.equals(this.RESERVEDWORLD_MAIN) ||
-				this.reservedWorld.equals(this.RESERVEDWORLD_IF) || 
-				this.reservedWorld.equals(this.RESERVEDWORLD_ELSE)||
-				this.reservedWorld.equals(this.RESERVEDWORLD_WHILE) || 
-				this.reservedWorld.equals(this.RESERVEDWORLD_DO) || 
-				this.reservedWorld.equals(this.RESERVEDWORLD_FOR) || 
-				this.reservedWorld.equals(this.RESERVEDWORLD_INT) || 
-				this.reservedWorld.equals(this.RESERVEDWORLD_FLOAT) || 
-				this.reservedWorld.equals(this.RESERVEDWORLD_CHAR) || 
-				this.reservedWorld.equals(this.RESERVEDWORLD_PRINTF) ||
-				this.reservedWorld.equals(this.RESERVEDWORLD_SCANF) ||
-				this.reservedWorld.equals(this.RESERVEDWORLD_INCLUDE) ||
-				this.reservedWorld.equals(this.RESERVEDWORLD_RETURN);
+		return world.equals(RESERVEDWORLD_MAIN) ||
+				world.equals(RESERVEDWORLD_IF) || 
+				world.equals(RESERVEDWORLD_ELSE)||
+				world.equals(RESERVEDWORLD_WHILE) || 
+				world.equals(RESERVEDWORLD_DO) || 
+				world.equals(RESERVEDWORLD_FOR) || 
+				world.equals(RESERVEDWORLD_INT) || 
+				world.equals(RESERVEDWORLD_FLOAT) || 
+				world.equals(RESERVEDWORLD_CHAR) || 
+				world.equals(RESERVEDWORLD_PRINTF) ||
+				world.equals(RESERVEDWORLD_SCANF) ||
+				world.equals(RESERVEDWORLD_INCLUDE) ||
+				world.equals(RESERVEDWORLD_RETURN);
+	}
+
+	public static boolean isType(String world) {
+		return world.equals(RESERVEDWORLD_INT) || 
+				world.equals(RESERVEDWORLD_FLOAT) || 
+				world.equals(RESERVEDWORLD_CHAR);
 	}
 
 }

@@ -51,11 +51,11 @@ public class IterationTest {
     @Test
     public void withoutWhileTest() throws Exception {
         this.writeFile.printf("int main (){\n\t");
-        this.writeFile.printf("(id == 1) {j = 3}\n");
-        this.writeFile.printf("}");
+        this.writeFile.printf("(id == 1) {j = 3;}\n");
+        this.writeFile.printf("}$");
         this.file.close();
 
-        String phrase = "Cade o while pra começar bença?";
+        String phrase = "Cade a palavra reservada da condicional pra começar bença?";
 
         try {
             this.compiler.runSintatic(path);

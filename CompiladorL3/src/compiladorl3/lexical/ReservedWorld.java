@@ -6,6 +6,7 @@ public class ReservedWorld {
 	public static final String RESERVEDWORLD_INT = "int";
 	public static final String RESERVEDWORLD_FLOAT = "float";
 	public static final String RESERVEDWORLD_CHAR = "char";
+	public static final String RESERVEDWORLD_VOID = "void";
 
 	// Flow Control
 	public static final String RESERVEDWORLD_IF = "if";
@@ -13,6 +14,12 @@ public class ReservedWorld {
 	public static final String RESERVEDWORLD_DO = "do";
 	public static final String RESERVEDWORLD_WHILE = "while";
 	public static final String RESERVEDWORLD_FOR = "for";
+
+	// OOP
+	public static final String RESERVEDWORLD_CLASS = "class";
+	public static final String RESERVEDWORLD_PUBLIC = "public";
+	public static final String RESERVEDWORLD_PRIVATE = "private";
+	public static final String RESERVEDWORLD_PROTECTED = "protected";
 
 	// Function
 	public static final String RESERVEDWORLD_RETURN = "return";
@@ -22,7 +29,6 @@ public class ReservedWorld {
 	public static final String RESERVEDWORLD_PRINTF = "printf";
 	public static final String RESERVEDWORLD_SCANF = "scanf";
 	public static final String RESERVEDWORLD_INCLUDE = "include";
-
 	
 	public static boolean isReservedWorld(String world) {
 
@@ -38,10 +44,22 @@ public class ReservedWorld {
 				world.equals(RESERVEDWORLD_PRINTF) ||
 				world.equals(RESERVEDWORLD_SCANF) ||
 				world.equals(RESERVEDWORLD_INCLUDE) ||
+				world.equals(RESERVEDWORLD_VOID) ||
+				world.equals(RESERVEDWORLD_CLASS) ||
+				world.equals(RESERVEDWORLD_PUBLIC) ||
+				world.equals(RESERVEDWORLD_PRIVATE) ||
+				world.equals(RESERVEDWORLD_PROTECTED) ||
 				world.equals(RESERVEDWORLD_RETURN);
 	}
 
-	public static boolean isType(String world) {
+	public static boolean isFunctionType(String world) {
+		return world.equals(RESERVEDWORLD_INT) || 
+				world.equals(RESERVEDWORLD_FLOAT) || 
+				world.equals(RESERVEDWORLD_CHAR) || 
+				world.equals(RESERVEDWORLD_VOID);
+	}
+
+	public static boolean isVariableType(String world) {
 		return world.equals(RESERVEDWORLD_INT) || 
 				world.equals(RESERVEDWORLD_FLOAT) || 
 				world.equals(RESERVEDWORLD_CHAR);

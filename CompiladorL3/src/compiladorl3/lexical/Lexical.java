@@ -32,14 +32,6 @@ public class Lexical {
 	private void backIndex() {
 		this.contentIndex--;
 	}
-
-	private boolean isLowerCaseLetter(char c) {
-		return (c >= 'a') && (c <= 'z');
-	}
-
-	private boolean isDigit(char c) {
-		return (c >= '0') && (c <= '9');
-	}
 	
 	public Token nextToken() throws Exception {
 		Token token = null;
@@ -59,12 +51,13 @@ public class Lexical {
 			case 1:
 				if (isPartOfAnIdentifier(currentChar)) {
 					lexeme.append(currentChar);
-					//Modified by @C03lh0
+
 					if(ReservedWorld.isReservedWorld(lexeme.toString())) {
 						return new Token(lexeme.toString(), Token.TYPE_RESERVED_WORLD);
 					} else if (!this.hasNextChar()) {
 						return new Token(lexeme.toString(), Token.TYPE_IDENTIFIER);
 					}
+					
 					state = 1;
 				} else {
 					this.backIndex();
@@ -133,9 +126,6 @@ public class Lexical {
 				if(currentChar == '\n' || !isAArithmeticOperator(currentChar)){
 					this.backIndex();
 					return new Token(lexeme.toString(), Token.TYPE_ARITHMETIC_OPERATOR);
-				} else if (isADoublyArithmeticOperator(currentChar, lexeme)) {
-					return new Token(lexeme.toString(), Token.TYPE_ARITHMETIC_OPERATOR);
-				//Alterated by @C03lh0	Matheus's Token (++ or +++ | -- or ---)
 				} else if (this.isAArithmeticOperator(currentChar)){
 					if(isArithmeticOperatorEquals(currentChar, lexeme) && counter<2) {
 						lexeme.append(currentChar);
@@ -153,14 +143,6 @@ public class Lexical {
 		}
 		return checkIfLexemaIsNotEmpty(token, currentChar, lexeme);
 	}
-
-	private Token checkIfLexemaIsNotEmpty(Token token, char currentChar, StringBuffer lexeme) {
-        if(lexeme.length() != 0){
-            return returnCurrentToken(currentChar, lexeme);
-        } else {
-            return token;
-        }
-    }
 
 	private int initialStateMachine(char currentChar, int estado, StringBuffer lexeme) {
 		if (isBlankSpace(currentChar)) {
@@ -184,9 +166,6 @@ public class Lexical {
 		} else if (isChar(currentChar)) {
 			lexeme.append(currentChar);
 			estado = 7;
-		} else if (isAquilesToken(currentChar)) {
-			lexeme.append(currentChar);
-			estado = 8;
 		} else if (isRelationalOperator(currentChar)) {
 			lexeme.append(currentChar);
 			estado = 9;
@@ -198,6 +177,22 @@ public class Lexical {
 			throw new RuntimeException("Erro: token invalido \"" + lexeme.toString() + "\"");
 		}
 		return estado;
+	}
+
+	private Token checkIfLexemaIsNotEmpty(Token token, char currentChar, StringBuffer lexeme) {
+        if(lexeme.length() != 0){
+            return returnCurrentToken(currentChar, lexeme);
+        } else {
+            return token;
+        }
+    }
+
+	private boolean isLowerCaseLetter(char c) {
+		return (c >= 'a') && (c <= 'z');
+	}
+
+	private boolean isDigit(char c) {
+		return (c >= '0') && (c <= '9');
 	}
 	
 	private boolean isAssignmentOperator(char c) {
@@ -216,10 +211,6 @@ public class Lexical {
 		}
 		lex.append(c);
 		return true;
-	}
-	
-	private boolean isAquilesToken(char c) {
-		return c == '#';
 	}
 
 	private boolean isPartOfAnIdentifier(char c) {
@@ -253,6 +244,19 @@ public class Lexical {
 		this.backIndex();
 		return false;
 	}
+
+	private boolean isArithmeticOperatorEquals(char currentChar, StringBuffer lexeme) {
+		char [] lexemaCharArray = lexeme.toString().toCharArray();
+		boolean isEquals = false;
+		for (int i = 0; i < lexemaCharArray.length; i++) {
+			if(currentChar == lexemaCharArray[i]) {
+				isEquals = true;
+			} else {
+				isEquals = false;
+			}
+		}
+		return isEquals;
+	}
 	
 	public int getIndiceConteudo() {
 		return contentIndex;
@@ -260,18 +264,6 @@ public class Lexical {
 
 	public void setIndiceConteudo(int contentIndex) {
 		this.contentIndex = contentIndex;
-	}
-
-	private boolean isADoublyArithmeticOperator(char c, StringBuffer lex){
-		//This method was created for cristofer's personal token
-		String supposedDoublyPotency = lex.toString() + "*";
-		String supposedDoublySQRT = lex.toString() + "/";
-
-		if (supposedDoublyPotency.equals("**")||supposedDoublySQRT.equals("*/")) {
-			lex.append(c);
-			return true;
-		}
-		return false;
 	}
 	
 	private Token returnCurrentToken(char currentChar, StringBuffer lexeme) {
@@ -295,17 +287,4 @@ public class Lexical {
 	   }
 	}
 	
-	private boolean isArithmeticOperatorEquals(char currentChar, StringBuffer lexeme) {
-		char [] lexemaCharArray = lexeme.toString().toCharArray();
-		boolean isEquals = false;
-		for (int i = 0; i < lexemaCharArray.length; i++) {
-			if(currentChar == lexemaCharArray[i]) {
-				isEquals = true;
-			} else {
-				isEquals = false;
-			}
-		}
-		return isEquals;
-	}
-
 }

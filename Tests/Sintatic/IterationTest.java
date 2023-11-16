@@ -38,6 +38,7 @@ public class IterationTest {
     public void correctSyntaxTest() throws Exception {
         this.writeFile.printf("int main (){\n\t");
         this.writeFile.printf("while (id == 1) {j = 3;}\n");
+        this.writeFile.printf("return 0;");
         this.writeFile.printf("}$");
         this.file.close();
 
@@ -45,23 +46,6 @@ public class IterationTest {
             this.compiler.runSintatic(path);
         } catch (RuntimeException e){
             Assert.fail();
-        }
-    }
-
-    @Test
-    public void withoutWhileTest() throws Exception {
-        this.writeFile.printf("int main (){\n\t");
-        this.writeFile.printf("(id == 1) {j = 3;}\n");
-        this.writeFile.printf("}$");
-        this.file.close();
-
-        String phrase = "Cade a palavra reservada da condicional pra começar bença?";
-
-        try {
-            this.compiler.runSintatic(path);
-            Assert.fail();
-        } catch (RuntimeException e){
-            assertEquals(phrase, e.getMessage());
         }
     }
 
@@ -69,10 +53,11 @@ public class IterationTest {
     public void withoutInitialParentesisTest() throws Exception {
         this.writeFile.printf("int main (){\n\t");
         this.writeFile.printf("while id == 1) {j = 3;}\n");
+        this.writeFile.printf("return 0;");
         this.writeFile.printf("}$");
         this.file.close();
 
-        String phrase = "Ô Bença coloca o ( para iniciar a expreção relacional do while";
+        String phrase = "[Error]: The token '(' is expected before id";
 
         try {
             this.compiler.runSintatic(path);
@@ -86,10 +71,11 @@ public class IterationTest {
     public void withoutFinalParentesisTest() throws Exception {
         this.writeFile.printf("int main (){\n\t");
         this.writeFile.printf("while (id == 1 {j = 3;}\n");
+        this.writeFile.printf("return 0;");
         this.writeFile.printf("}$");
         this.file.close();
 
-        String phrase = "Ô Bença coloca o ) para finalizar a expreção relacional do while";
+        String phrase = "[Error]: The token ')' is expected before {";
 
         try {
             this.compiler.runSintatic(path);

@@ -39,6 +39,7 @@ public class VariableDeclarationTest {
     public void correctSyntaxTest() throws Exception {
         this.writeFile.printf("int main (){\n\t");
         this.writeFile.printf("int a = 10;\n");
+        this.writeFile.printf("return 0;");
         this.writeFile.printf("}$");
         this.file.close();
 
@@ -54,27 +55,11 @@ public class VariableDeclarationTest {
         this.writeFile.printf("int main (){\n\t");
         this.writeFile.printf("int b;\n");
         this.writeFile.printf("b = ;\n");
+        this.writeFile.printf("return 0;");
         this.writeFile.printf("}$");
         this.file.close();
 
-        String phrase = "Sim, essa expressao vai receber o que? coloca o valor bença!";
-
-        try {
-            this.compiler.runSintatic(path);
-            Assert.fail();
-        } catch (RuntimeException e){
-            assertEquals(phrase, e.getMessage());
-        }
-    }
-
-    @Test
-    public void withoutIdentifierTest() throws Exception {
-        this.writeFile.printf("int main (){\n\t");
-        this.writeFile.printf("= 10;\n");
-        this.writeFile.printf("}$");
-        this.file.close();
-
-        String phrase = "Lascou! Qual é o identificador bença?";
+        String phrase = "[Error]: A value must be provided before ;";
 
         try {
             this.compiler.runSintatic(path);

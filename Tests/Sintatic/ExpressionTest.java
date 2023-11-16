@@ -39,6 +39,7 @@ public class ExpressionTest {
     public void correctSyntaxTest() throws Exception {
         this.writeFile.printf("int main (){\n\t");
         this.writeFile.printf("while (a > 10){}\n");
+        this.writeFile.printf("return 0;");
         this.writeFile.printf("}$");
         this.file.close();
 
@@ -53,10 +54,11 @@ public class ExpressionTest {
     public void withoutRelacionalOperatorTest() throws Exception {
         this.writeFile.printf("int main (){\n\t");
         this.writeFile.printf("while (a * 10){}\n");
+        this.writeFile.printf("return 0;");
         this.writeFile.printf("}$");
         this.file.close();
 
-        String phrase = "Erro, relaciona ai o que foi! Ta faltando o operador relacional mermao...";
+        String phrase = "[Error]: A conditional operator is expected before *";
 
         try {
             this.compiler.runSintatic(path);

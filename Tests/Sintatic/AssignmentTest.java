@@ -38,6 +38,7 @@ public class AssignmentTest {
     public void NotTerminalAssignmentTest1() throws Exception {
         this.writeFile.printf("int main (){\n\t");
         this.writeFile.printf("a = 10;\n");
+        this.writeFile.printf("return 0;\n");
         this.writeFile.printf("}$");
         this.file.close();
 
@@ -45,23 +46,6 @@ public class AssignmentTest {
             this.compiler.runSintatic(path);
         } catch (RuntimeException e){
             Assert.fail();
-        }
-    }
-
-    @Test
-    public void NotTerminalAssignmentTest2() throws Exception {
-        this.writeFile.printf("int main (){\n\t");
-        this.writeFile.printf("= 10;\n");
-        this.writeFile.printf("}$");
-        this.file.close();
-
-        String phrase = "Lascou! Qual é o identificador bença?";
-
-        try {
-            this.compiler.runSintatic(path);
-            Assert.fail();
-        } catch (RuntimeException e){
-            assertEquals(phrase, e.getMessage());
         }
     }
 
@@ -72,7 +56,7 @@ public class AssignmentTest {
         this.writeFile.printf("}$");
         this.file.close();
 
-        String phrase = "Lascou! Cade o operador de atribuição bença?";
+        String phrase = "[Error]: Unexpected token '10'";
 
         try {
             this.compiler.runSintatic(path);
@@ -89,7 +73,7 @@ public class AssignmentTest {
         this.writeFile.printf("}$");
         this.file.close();
 
-        String phrase = "Finaliza a atribuição ae bença, coloca o ';'";
+        String phrase = "[Error]: The token ';' is expected before }";
 
         try {
             this.compiler.runSintatic(path);

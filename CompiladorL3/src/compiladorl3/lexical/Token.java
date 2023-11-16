@@ -11,8 +11,6 @@ public class Token {
     public static int TYPE_SPECIAL_CHARACTER = 6;
     public static int TYPE_RESERVED_WORLD = 7;
     public static int TYPE_ASSIGNMENT_OPERATOR = 8;
-    public static int TYPE_BRUNO_TOKEN= 77;
-    public static int TIPO_AQUILES_TOKEN = 88;
     public static int TYPE_END_OF_CODE = 99;
     
     private int type;
@@ -53,8 +51,6 @@ public class Token {
                 return this.lexeme + " - PALAVRA_RESERVADA";
             case 8:
             	return this.lexeme + " - OPERADOR_DE_ATRIBUICAO";
-            case 88:
-            	return this.lexeme + " - TOKEN_AQUILES";
             case 99:
                 return this.lexeme + " - FIM_CODIGO";    
         }

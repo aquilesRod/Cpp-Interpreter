@@ -36,7 +36,7 @@ public class BlockTest {
 
     @Test
     public void correctSyntaxTest() throws Exception {
-        this.writeFile.printf("int main (){}$\n");
+        this.writeFile.printf("int main (){ return 0; }$\n");
         this.file.close();
 
         try {
@@ -48,10 +48,10 @@ public class BlockTest {
 
     @Test
     public void withoutInitialKeyTest() throws Exception {
-        this.writeFile.printf("int main ()}$\n");
+        this.writeFile.printf("int main () return 0; }$\n");
         this.file.close();
 
-        String phrase = "Como você é burro cara! Abre as chaves do método.";
+        String phrase = "[Error]: The token '{' is expected before return";
 
         try {
             this.compiler.runSintatic(path);
@@ -63,10 +63,10 @@ public class BlockTest {
 
     @Test
     public void withoutFinalKeyTest() throws Exception {
-        this.writeFile.printf("int main (){$\n");
+        this.writeFile.printf("int main (){ return 0; $\n");
         this.file.close();
 
-        String phrase = "Como você é burro cara! Fecha as chaves do método.";
+        String phrase = "[Error]: The token '}' is expected before $";
 
         try {
             this.compiler.runSintatic(path);

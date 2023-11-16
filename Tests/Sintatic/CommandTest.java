@@ -37,6 +37,7 @@ public class CommandTest {
     public void correctSyntaxTest() throws Exception {
         this.writeFile.printf("int main (){\n\t");
         this.writeFile.printf("if (id < 4) {id = 0;} else {id = 4;}\n");
+        this.writeFile.printf("return 0;\n");
         this.writeFile.printf("}$");
         this.file.close();
 
@@ -48,19 +49,33 @@ public class CommandTest {
     }
 
     @Test
-    public void withoutIFTest() throws Exception {
+    public void withIfOnlyTest() throws Exception {
         this.writeFile.printf("int main (){\n\t");
-        this.writeFile.printf("(id < 4) {id = 0;} else {id = 4;}\n");
+        this.writeFile.printf("if (id < 4) {id = 0;}\n");
+        this.writeFile.printf("return 0;\n");
         this.writeFile.printf("}$");
         this.file.close();
 
-        String phrase = "Cade a palavra reservada da condicional pra começar bença?";
+        try {
+            this.compiler.runSintatic(path);
+        } catch (RuntimeException e){
+            Assert.fail();
+        }
+    }
+
+    @Test
+    public void withElseIfTest() throws Exception {
+        this.writeFile.printf("int main (){\n\t");
+        this.writeFile.printf("if (id < 4) {id = 0;}\n");
+        this.writeFile.printf("else if (id > 5) {id = 1;}\n");
+        this.writeFile.printf("return 0;\n");
+        this.writeFile.printf("}$");
+        this.file.close();
 
         try {
             this.compiler.runSintatic(path);
-            Assert.fail();
         } catch (RuntimeException e){
-            assertEquals(phrase, e.getMessage());
+            Assert.fail();
         }
     }
 
@@ -68,10 +83,11 @@ public class CommandTest {
     public void withoutInitialParentesisTest() throws Exception {
         this.writeFile.printf("int main (){\n\t");
         this.writeFile.printf("if id < 4) {id = 0;} else {id = 4;}\n");
+        this.writeFile.printf("return 0;\n");
         this.writeFile.printf("}$");
         this.file.close();
 
-        String phrase = "Ei comparça! Bora, abre o parênteses do if.";
+        String phrase = "[Error]: The token '(' is expected before id";
 
         try {
             this.compiler.runSintatic(path);
@@ -85,44 +101,11 @@ public class CommandTest {
     public void withoutFinalParentesisTest() throws Exception {
         this.writeFile.printf("int main (){\n\t");
         this.writeFile.printf("if (id < 4 {id = 0;} else {id = 4;}\n");
+        this.writeFile.printf("return 0;\n");
         this.writeFile.printf("}$");
         this.file.close();
 
-        String phrase = "Ei comparça! Bora, fecha o parênteses do if.";
-
-        try {
-            this.compiler.runSintatic(path);
-            Assert.fail();
-        } catch (RuntimeException e){
-            assertEquals(phrase, e.getMessage());
-        }
-    }
-
-    @Test
-    public void withoutElseTest() throws Exception {
-        this.writeFile.printf("int main (){\n\t");
-        this.writeFile.printf("if (id < 4) {id = 0;} {id = 4;} ?\n");
-        this.writeFile.printf("}$");
-        this.file.close();
-
-        String phrase = "Ei comparça, cade o ELSE do teu if?";
-
-        try {
-            this.compiler.runSintatic(path);
-            Assert.fail();
-        } catch (RuntimeException e){
-            assertEquals(phrase, e.getMessage());
-        }
-    }
-
-    @Test
-    public void withoutInterrogationTest() throws Exception {
-        this.writeFile.printf("int main (){\n\t");
-        this.writeFile.printf("if (id < 4) {id = 0;} else id = 4;}\n");
-        this.writeFile.printf("}$");
-        this.file.close();
-
-        String phrase = "Ei comparça! Bora, abre o '{' do else.";
+        String phrase = "[Error]: The token ')' is expected before {";
 
         try {
             this.compiler.runSintatic(path);

@@ -36,8 +36,12 @@ public class ArithmeticExpressionTest {
 
     @Test
     public void correctSyntaxTest() throws Exception {
+        this.writeFile.printf("int soma (int a, int b){\n\t");
+        this.writeFile.printf("return a+b;\n\t");
+        this.writeFile.printf("}\n\t");
         this.writeFile.printf("int main (){\n\t");
-        this.writeFile.printf("a = (10+10*10-10)/10;\n");
+        this.writeFile.printf("int a = soma(10,20);\n");
+        this.writeFile.printf("return 0;\n");
         this.writeFile.printf("}$");
         this.file.close();
 
@@ -70,7 +74,7 @@ public class ArithmeticExpressionTest {
         this.writeFile.printf("}$");
         this.file.close();
 
-        String phrase = "Ai você me quebra! Fecha o parênteses perto da expressao aritmetica";
+        String phrase = "[Error]: The token ')' is expected before ;";
 
         try {
             this.compiler.runSintatic(path);

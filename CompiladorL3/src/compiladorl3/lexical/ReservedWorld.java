@@ -17,6 +17,7 @@ public class ReservedWorld {
 
 	// OOP
 	public static final String RESERVEDWORLD_CLASS = "class";
+	public static final String RESERVEDWORLD_NEW = "new";
 	public static final String RESERVEDWORLD_PUBLIC = "public";
 	public static final String RESERVEDWORLD_PRIVATE = "private";
 	public static final String RESERVEDWORLD_PROTECTED = "protected";
@@ -46,6 +47,7 @@ public class ReservedWorld {
 				world.equals(RESERVEDWORLD_INCLUDE) ||
 				world.equals(RESERVEDWORLD_VOID) ||
 				world.equals(RESERVEDWORLD_CLASS) ||
+				world.equals(RESERVEDWORLD_NEW) ||
 				world.equals(RESERVEDWORLD_PUBLIC) ||
 				world.equals(RESERVEDWORLD_PRIVATE) ||
 				world.equals(RESERVEDWORLD_PROTECTED) ||
@@ -63,6 +65,17 @@ public class ReservedWorld {
 		return world.equals(RESERVEDWORLD_INT) || 
 				world.equals(RESERVEDWORLD_FLOAT) || 
 				world.equals(RESERVEDWORLD_CHAR);
+	}
+
+	public static boolean isDeclaration(String world) {
+		return isFunctionType(world) || 
+				world.equals(RESERVEDWORLD_CLASS);
+	}
+
+	public static boolean isAccessModifier(String world) {
+		return world.equals(RESERVEDWORLD_PUBLIC) ||
+				world.equals(RESERVEDWORLD_PRIVATE) ||
+				world.equals(RESERVEDWORLD_PROTECTED);
 	}
 
 }

@@ -187,8 +187,8 @@ public class Lexical {
         }
     }
 
-	private boolean isLowerCaseLetter(char c) {
-		return (c >= 'a') && (c <= 'z');
+	private boolean isLetter(char c) {
+		return ((c >= 'a') && (c <= 'z') || (c >= 'A') && (c <= 'Z'));
 	}
 
 	private boolean isDigit(char c) {
@@ -205,7 +205,7 @@ public class Lexical {
 	}
 	
 	private boolean isPartOfChar (char c, StringBuffer lex) {
-		if (!((this.isDigit(c) || this.isLowerCaseLetter(c)) && lex.length() == 1) 
+		if (!((this.isDigit(c) || this.isLetter(c)) && lex.length() == 1) 
 				&& !(c == "'".charAt(0) && lex.length() == 2)) {
 			return false;
 		}
@@ -214,15 +214,15 @@ public class Lexical {
 	}
 
 	private boolean isPartOfAnIdentifier(char c) {
-		return this.isLowerCaseLetter(c) || this.isDigit(c) || c == '_';
+		return this.isLetter(c) || this.isDigit(c) || c == '_';
 	}
 
 	private boolean isASpecialCharacter(char c) {
-		return c == ')' || c == '(' || c == '{' || c == '}' || c == ',' || c == ';';
+		return c == ')' || c == '(' || c == '{' || c == '}' || c == ',' || c == ';' || c == ':' || c == '.';
 	}
 
 	private boolean isLetterOrUnderscore(char c) {
-		return this.isLowerCaseLetter(c) || c == '_';
+		return this.isLetter(c) || c == '_';
 	}
 
 	private boolean isBlankSpace(char c) {

@@ -8,6 +8,7 @@ public class Sintatic {
 
     private Lexical lexicalAnalyzer;
     private Token token;
+    private String temporaryNextToken;
     private String functionReturnStatement;
 
     public Sintatic(Lexical lexicalAnalyzer) {
@@ -17,8 +18,9 @@ public class Sintatic {
     public void analyzeProgram() throws Exception {
         this.token = lexicalAnalyzer.nextToken();
 
-        while(ReservedWorld.isFunctionType(this.token.getLexeme())) {
+        while(ReservedWorld.isDeclaration(this.token.getLexeme())) {
             this.functionReturnStatement = this.token.getLexeme();
+            this.token = lexicalAnalyzer.nextToken();
             this.declaration();
         }
 
@@ -30,27 +32,22 @@ public class Sintatic {
     }
 
     private void declaration() throws Exception {
-        this.token = lexicalAnalyzer.nextToken();
-
         if (!(this.token.getType() == Token.TYPE_IDENTIFIER) && !(this.token.getLexeme().equals(ReservedWorld.RESERVEDWORLD_MAIN))) {
             System.out.println("[Error]: The identifier of the declaration was not found");
         }
 
-        this.token = lexicalAnalyzer.nextToken();
+        temporaryNextToken = getTemporaryNextToken();
 
-        if(this.token.getLexeme().equals(";") || this.token.getLexeme().equals("=")) {
+        if(temporaryNextToken.equals(";") || temporaryNextToken.equals("=")) {
             this.variableDeclaration();
-        } else if(this.token.getLexeme().equals("(")) {
+        } else if(temporaryNextToken.equals("(")) {
             this.functionDeclaration();
         } else {
-            // maybe a class?
+            this.classDeclaration();
         }
     }
 
-
     private void variableDeclaration() throws Exception {
-        this.token = lexicalAnalyzer.nextToken();
-
         if(this.token.getType() != Token.TYPE_IDENTIFIER) {
             throw new RuntimeException("[Error]: A identifier is expected before "+this.token.getLexeme());
         }
@@ -58,6 +55,7 @@ public class Sintatic {
         this.token = lexicalAnalyzer.nextToken();
 
         if(this.token.getLexeme().equalsIgnoreCase(",")){
+            this.token = lexicalAnalyzer.nextToken();
             this.variableDeclaration();
             return;
         } else if(this.token.getType() == Token.TYPE_ASSIGNMENT_OPERATOR) {
@@ -84,6 +82,42 @@ public class Sintatic {
         this.token = lexicalAnalyzer.nextToken();
 
         this.block(true);
+    }
+
+    private void classDeclaration() throws Exception {
+        this.token = lexicalAnalyzer.nextToken();
+
+        while(ReservedWorld.isDeclaration(this.token.getLexeme())) {
+            this.listOfClassDeclarations();
+        }
+
+        if(!this.token.getLexeme().equals("}")) {
+            throw new RuntimeException("[Error]: A '}' is expected before "+this.token.getLexeme());
+        }
+
+        this.token = lexicalAnalyzer.nextToken();
+
+        if(!this.token.getLexeme().equals(";")) {
+            throw new RuntimeException("[Error]: A ';' is expected before "+this.token.getLexeme());
+        }
+
+        this.token = lexicalAnalyzer.nextToken();
+    }
+
+    private void listOfClassDeclarations() throws Exception {
+        this.token = lexicalAnalyzer.nextToken();
+
+        if(ReservedWorld.isAccessModifier(this.token.getLexeme())) {
+            this.token = lexicalAnalyzer.nextToken();
+
+            if(!this.token.getLexeme().equals(":")) {
+                throw new RuntimeException("[Error]: A ':' is expected before "+this.token.getLexeme());
+            }
+
+            this.token = lexicalAnalyzer.nextToken();
+        }
+
+        this.declaration();
     }
 
     private void parameter() throws Exception {
@@ -160,6 +194,7 @@ public class Sintatic {
 
     private void declarationOrComand() throws Exception {
         if(ReservedWorld.isFunctionType(this.token.getLexeme())) {
+            this.token = lexicalAnalyzer.nextToken();
             this.variableDeclaration();
         } else if (isComand()) {
             this.command();
@@ -170,7 +205,7 @@ public class Sintatic {
 
     private void command() throws Exception {
         if(this.token.getType() == Token.TYPE_IDENTIFIER){
-            this.assignmentOrFunctionCall();
+            this.commandFromAnIdentifier();
         } else if(this.token.getLexeme().equals(ReservedWorld.RESERVEDWORLD_WHILE)) {
             this.iterationCommand();
         } else if(this.token.getLexeme().equals(ReservedWorld.RESERVEDWORLD_IF)) {
@@ -182,13 +217,15 @@ public class Sintatic {
         }
     }
 
-    private void assignmentOrFunctionCall() throws Exception {
+    private void commandFromAnIdentifier() throws Exception {
         this.token = lexicalAnalyzer.nextToken();
 
         if(this.token.getType() == Token.TYPE_ASSIGNMENT_OPERATOR) {
             this.assignmentCommand();
         } else if (this.token.getLexeme().equals("(")){
             this.functionCall();
+        } else if (this.token.getLexeme().equals(".")){
+            this.objectFunctionCallOrVariableAccess();
         } else {
             throw new RuntimeException("[Error]: Unexpected token '"+this.token.getLexeme()+"'");
         }
@@ -261,10 +298,6 @@ public class Sintatic {
     }
 
     private void functionCall() throws Exception {
-        if(!isValidTerm() && !this.token.getLexeme().equals("(")) {
-        	throw new RuntimeException("[Error]: A value must be provided before "+this.token.getLexeme());
-        }
-
         this.token = lexicalAnalyzer.nextToken();
 
         this.arguments();
@@ -277,6 +310,30 @@ public class Sintatic {
 
         if(!this.token.getLexeme().equals(";")) { 
             throw new RuntimeException("[Error]: The token ';' is expected before "+this.token.getLexeme());
+        }
+    }
+
+    private void objectFunctionCallOrVariableAccess() throws Exception {
+        this.token = lexicalAnalyzer.nextToken();
+
+        if(!this.token.getLexeme().equals(".")) { 
+            throw new RuntimeException("[Error]: The token ')' is expected before "+this.token.getLexeme());
+        }
+
+        this.token = lexicalAnalyzer.nextToken();
+
+        if(this.token.getType() != Token.TYPE_IDENTIFIER) { 
+            throw new RuntimeException("[Error]: A function/variable access for the object is expected before "+this.token.getLexeme());
+        }
+
+        this.token = lexicalAnalyzer.nextToken();
+
+        if (this.token.getLexeme().equals("(")) {
+            this.functionCall();
+        } else if (this.token.getLexeme().equals(";")) {
+            this.token = lexicalAnalyzer.nextToken();
+        } else {
+            throw new RuntimeException("[Error]: The token '"+this.token.getLexeme()+"' is not expected");
         }
     }
 
@@ -350,9 +407,11 @@ public class Sintatic {
         } else if (this.token.getType() == Token.TYPE_IDENTIFIER) {
             this.token = lexicalAnalyzer.nextToken();
 
-            if(this.token.getLexeme().equals("(")) {
+            if(this.token.getLexeme().equals("(") || this.token.getLexeme().equals(ReservedWorld.RESERVEDWORLD_NEW)) {
                 this.functionCall();
             }
+
+            // this.token = lexicalAnalyzer.nextToken();
         } else if (isValidTerm()) {
             this.token = lexicalAnalyzer.nextToken();
         } else {
@@ -368,6 +427,14 @@ public class Sintatic {
         }
 
         this.token = lexicalAnalyzer.nextToken();
+    }
+
+    private String getTemporaryNextToken() throws Exception {
+        Token auxiliaryToken;
+        Lexical auxiliarLexicalAnalyzer = this.lexicalAnalyzer;
+        auxiliaryToken = auxiliarLexicalAnalyzer.nextToken();
+
+        return auxiliaryToken.getLexeme();
     }
 
     private boolean isComand() {

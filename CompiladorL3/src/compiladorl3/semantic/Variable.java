@@ -1,4 +1,4 @@
-package semantic;
+package compiladorl3.semantic;
 
 public class Variable {
 	private String name;
@@ -45,3 +45,4 @@ public class Variable {
 		return false;
 	}
 }
+

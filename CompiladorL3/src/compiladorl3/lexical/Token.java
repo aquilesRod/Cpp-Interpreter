@@ -1,7 +1,6 @@
 package compiladorl3.lexical;
 
 public class Token {
-
     public static int TYPE_INT = 0;
     public static int TYPE_FLOAT = 1;
     public static int TYPE_CHAR = 2;
@@ -20,13 +19,39 @@ public class Token {
         this.lexeme = lexeme;
         this.type = type;
     }
+
+    public Token(String lexeme, String type){
+        this.lexeme = lexeme;
+        this.type = getIntForTypeFromNameOfType(type);
+    }
+
+    public int getIntForTypeFromNameOfType(String type) {
+        switch (type) {
+            case "int":
+                return 0;
+            case "real":
+                return 1;
+            case "char":
+                return 2;
+            default:
+                return -1;
+        }
+    }
     
-    public String getLexeme(){
+    public String getLexeme() {
         return this.lexeme;
+    }
+
+    public void setLexeme(String lexeme) {
+        this.lexeme = lexeme;
     }
     
     public int getType(){
         return this.type;
+    }
+    
+    public void setType(int type) {
+        this.type = type;
     }
     
     @Override

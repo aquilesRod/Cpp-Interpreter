@@ -1,7 +1,4 @@
-package semantic;
-
-import java.util.ArrayList;
-import java.util.List;
+package compiladorl3.semantic;
 
 import compiladorl3.lexical.Token;
 
@@ -23,6 +20,21 @@ public class Type {
 		public void setType(int type) {
 			this.type = type;
 		}
+
+		public String getString() {
+			switch (this.type) {
+				case 0:
+					return "int";
+				case 1:
+					return "real";
+				case 2:
+					return "char";
+				case 3:
+					return "char";
+				default:
+					return null;
+			}
+		}
 	   
 	    public static int checkIfVariableTypeIsValid(Token token) {
 	    	if ("int".equals(token.getLexeme())) {
@@ -34,6 +46,7 @@ public class Type {
 			}
 	    	return -1;
 	    }
+		
 	    public static int checkIfVariableTypeIsValid(String type) {
 	    	if ("int".equals(type)) {
 				return intType;
@@ -54,3 +67,4 @@ public class Type {
 	    	return super.equals(obj);
 	    }
 }
+

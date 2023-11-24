@@ -3,7 +3,7 @@ package compiladorl3;
 import compiladorl3.lexical.Lexical;
 import compiladorl3.lexical.Token;
 import compiladorl3.sintatic.Sintatic;
-import semantic.Semantic;
+import compiladorl3.semantic.Semantic;
 
 public class Compiler {
 

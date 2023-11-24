@@ -1,4 +1,4 @@
-package semantic;
+package compiladorl3.semantic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,7 +29,7 @@ public class SOperationChecker {
 		
 		/*
 		
-		if (isAnIdentifier(currentToken) && !(operationParts.get(0).getTipo() == currentToken.getTipo())) {
+		if (isAnIdentifier(currentToken) && !(operationParts.get(0).getType() == currentToken.getType())) {
 			throw new Exception("Operators have differents types in: '" + currentOperationPartsToString() + "'");
 		} else if (!correctLogicalSequence(currentToken)) {
 			throw new Exception("Sequentially repeated tokens type: '" + currentOperationPartsToString() + "'");
@@ -88,3 +88,4 @@ public class SOperationChecker {
 		throw new Exception("Statement not finished: '" + currentOperationPartsToString() + "' <-");
 	}
 }
+

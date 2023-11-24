@@ -7,8 +7,8 @@ public class Main {
 		Compiler c = new Compiler();
 		try {
 			c.runLexico(path);
-			c.runSintatic(path);
-			//c.runSemantic(path);
+			// c.runSintatic(path);
+			// c.runSemantic(path);
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

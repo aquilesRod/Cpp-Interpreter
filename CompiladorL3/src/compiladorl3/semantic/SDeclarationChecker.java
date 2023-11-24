@@ -1,4 +1,4 @@
-package semantic;
+package compiladorl3.semantic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,13 +50,21 @@ public class SDeclarationChecker  {
 		} else if (hasTheValueAlreadyBeenEntered() && isADeclarationTerminator(currentPart)) {
 			currentVariableDeclaration.add(currentPart.getLexeme());
 			setInitializedStatusToDeclaration();
-		} else {
-			throw new Exception("Finish the variable declaration: '" + this.toString() + "' <-");
+		}else if (isAnReassignment(currentPart)) {
+			currentDeclarationStatus = "reassignment";
+		} else if(isAValidIdentifier(currentPart) && this.currentScope.getVariable(currentPart.getLexeme()) == null && !currentDeclarationStatus.equals("reassignment")){
+			throw new Exception("Variable does not exist '" + currentPart.getLexeme() + "' <-");
 		}
 	}
 
 	private boolean isAVariableToCombine(Token currentPart) throws Exception {
-		return isAnArithmeticOperator(this.getCurrentVariableDeclaration().get(this.getCurrentVariableDeclaration().size() -1).charAt(0)) && isAnIdentifier(currentPart) && checkIfTheValueTypeMatchesTheVarType(currentPart);
+		int lastIndex = this.getCurrentVariableDeclaration().size() -1;
+
+		if (lastIndex >= 0) {
+			String lastChar = this.getCurrentVariableDeclaration().get(lastIndex);
+			return isAnArithmeticOperator(lastChar.charAt(0)) && isAnIdentifier(currentPart) && checkIfTheValueTypeMatchesTheVarType(currentPart);
+		}
+		return false;
 	}
 
 	private boolean checkIfTheValueTypeMatchesTheVarType(Token currentPart) throws Exception {
@@ -94,6 +102,8 @@ public class SDeclarationChecker  {
 			if (compositionVar == null) {
 				return false;
 			}
+			currentPart.setLexeme(compositionVar.getValue());
+			currentPart.setType(compositionVar.getType().getTypeNumber());
 			return compositionVar.getType().getTypeNumber() == Type
 					.checkIfVariableTypeIsValid(currentVariableDeclaration.get(0));
 		}
@@ -105,6 +115,15 @@ public class SDeclarationChecker  {
 		semanticSubject.updateDeclarationCheckers();
 	}
 
+	public boolean isAnReassignment(Token token) {
+		Variable variable = currentScope.getVariable(token.getLexeme());
+		boolean isAnReassignment = this.currentVariableDeclaration.size() == 0 && variable != null;
+		currentVariableDeclaration.add(variable.getType().getString());		
+		currentVariableDeclaration.add(token.getLexeme());
+		currentScope.removeDeclaredVariable(token.getLexeme());
+		return isAnReassignment;
+	}
+
 	public void setInitializedStatusToDeclaration() {
 		this.currentDeclarationStatus = "EMPTY";
 		addVariableInScope();
@@ -114,6 +133,8 @@ public class SDeclarationChecker  {
 
 	public void setNotInitializedStatusToDeclaration() {
 		this.currentDeclarationStatus = "NOT_INITIALIZED";
+		Type currentType = new Type(Type.checkIfVariableTypeIsValid(currentVariableDeclaration.get(0)));
+		this.currentScope.unDeclaredVariable(currentVariableDeclaration.get(1), currentType, null);
 		notifySubject();
 	}
 
@@ -130,6 +151,9 @@ public class SDeclarationChecker  {
 	}
 
 	public String getCurrentDeclarationName() {
+		
+		if(this.currentVariableDeclaration.size() <= 1)
+			return " ";
 		return this.currentVariableDeclaration.get(1);
 	}
 
@@ -195,6 +219,10 @@ public class SDeclarationChecker  {
 
 	private boolean isVariableType(Token currentPart) {
 		return this.currentVariableDeclaration.size() == 0 && Type.checkIfVariableTypeIsValid(currentPart) != -1;
+	}
+
+	public Semantic getSemanticSubject() {
+		return semanticSubject;
 	}
 	
 	@Override

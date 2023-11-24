@@ -188,7 +188,7 @@ public class Lexical {
     }
 
 	private boolean isLowerCaseLetter(char c) {
-		return (c >= 'a') && (c <= 'z');
+		return ((c >= 'a') && (c <= 'z') || (c >= 'A') && (c <= 'Z'));
 	}
 
 	private boolean isDigit(char c) {

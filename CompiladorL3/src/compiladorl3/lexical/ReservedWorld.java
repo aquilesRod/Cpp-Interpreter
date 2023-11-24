@@ -24,11 +24,6 @@ public class ReservedWorld {
 	// Function
 	public static final String RESERVEDWORLD_RETURN = "return";
 	public static final String RESERVEDWORLD_MAIN = "main";
-
-	// Libraries
-	public static final String RESERVEDWORLD_PRINTF = "printf";
-	public static final String RESERVEDWORLD_SCANF = "scanf";
-	public static final String RESERVEDWORLD_INCLUDE = "include";
 	
 	public static boolean isReservedWorld(String world) {
 
@@ -40,10 +35,7 @@ public class ReservedWorld {
 				world.equals(RESERVEDWORLD_FOR) || 
 				world.equals(RESERVEDWORLD_INT) || 
 				world.equals(RESERVEDWORLD_FLOAT) || 
-				world.equals(RESERVEDWORLD_CHAR) || 
-				world.equals(RESERVEDWORLD_PRINTF) ||
-				world.equals(RESERVEDWORLD_SCANF) ||
-				world.equals(RESERVEDWORLD_INCLUDE) ||
+				world.equals(RESERVEDWORLD_CHAR) ||
 				world.equals(RESERVEDWORLD_VOID) ||
 				world.equals(RESERVEDWORLD_CLASS) ||
 				world.equals(RESERVEDWORLD_PUBLIC) ||

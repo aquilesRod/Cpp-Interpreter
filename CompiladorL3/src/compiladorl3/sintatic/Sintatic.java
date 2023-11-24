@@ -153,9 +153,8 @@ public class Sintatic {
             if (!this.token.getLexeme().equals(";")) {
                 throw new RuntimeException("[Error]: The token ';' is expected before "+this.token.getLexeme());
             }
+            this.token = this.lexicalAnalyzer.nextToken();
         }
-
-        this.token = this.lexicalAnalyzer.nextToken();
     }
 
     private void declarationOrComand() throws Exception {

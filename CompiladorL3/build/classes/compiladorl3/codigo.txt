@@ -1,11 +1,11 @@
-int soma (int a, int b, int c) {
-	return a+b+c;
+int areEqual(int a, int b, int c) {
+	return a + b + c;
 }
 
 int main() {
-    int a, b;
-	a = soma(10, 10, 10);
-	b = a+20;
+	int a, b;
+	a = sum(10, 10, 10);
+	b = a + 20;
 	
 	return 0;
 }$

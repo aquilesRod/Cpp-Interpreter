@@ -1,4 +1,4 @@
-package semantic;
+package compiladorl3.semantic;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,19 +11,20 @@ public class Semantic {
 	private SOperationChecker operationChecker;
 	private SDeclarationChecker currentSDeclarationChecker;
 	private List<SDeclarationChecker> declarationCheckers;
-	private Token[] last2TokensIsDeclarationOrOperation;
+	private Token[] last3TokensIsDeclarationOrOperation;
 	private Stack<Scope> scopes;
 	private Scope currentScope;
 
 	public Semantic() {
 		this.scopes =  new Stack<Scope>();
-		this.last2TokensIsDeclarationOrOperation = new Token[2];
+		this.last3TokensIsDeclarationOrOperation = new Token[3];
 		this.declarationCheckers = new ArrayList<SDeclarationChecker>();
 	}
 
 	public Scope getCurrentScope() {
 		return this.currentScope;
 	}
+	
 	public void runSemantic(Token token) throws Exception {	
 		if(isAnOpenKey(token)) {
 			this.currentScope = new Scope();
@@ -39,19 +40,59 @@ public class Semantic {
 		}
 		
 		if (isAnVariableType(token)) {
+			this.last3TokensIsDeclarationOrOperation[2] = token;
 			this.currentSDeclarationChecker.isPartOfADeclaration(token);
 			return;
-		} else if (isAnIdentifier(token) && !theDecisionMakingArrayIsFull()) {
-			addTokensForDecisionMaking(token);
+		} else if (isAnIdentifier(token) && !theDecisionMakingArrayIsFull() || isAnReassignment()) {
+			Variable variableAlreadyDeclared = null;
+
+			if (last3TokensIsDeclarationOrOperation[0] != null) {
+				for (Scope currentScope : scopes) {
+					variableAlreadyDeclared = currentScope.getVariable(last3TokensIsDeclarationOrOperation[0].getLexeme());
+				}
+				if (variableAlreadyDeclared != null ) {
+					this.state = 1;
+					executeStateOnlast2Tokens();
+				}
+				executeCurrentState(token);
+
+			}else{
+				addTokensForDecisionMaking(token);
+			}
+
 			return;
-		} else if (!theDecisionMakingArrayIsFull() && !(token.getLexeme().equals(";"))) {
+		} else if (!theDecisionMakingArrayIsFull() && this.last3TokensIsDeclarationOrOperation[1] ==null && currentSDeclarationChecker.getCurrentVariableDeclaration().size() < 3) {
 			addTokensForDecisionMaking(token);
+			
+			if(token.getLexeme().equals(";") && this.currentScope.getVariable(last3TokensIsDeclarationOrOperation[0].getLexeme()) != null ) {
+				this.state = 1;
+				executeStateOnlast2Tokens();
+				return;
+			} else if(last3TokensIsDeclarationOrOperation[0] !=  null && last3TokensIsDeclarationOrOperation[1] !=  null && last3TokensIsDeclarationOrOperation[2] !=  null) {
+				this.state = 1;
+				executeStateOnlast2Tokens();
+				clearDecisionMakingArray();
+			} else if(last3TokensIsDeclarationOrOperation[1] != null && last3TokensIsDeclarationOrOperation[2] != null && last3TokensIsDeclarationOrOperation[1].getLexeme().equals(";") && this.currentScope.getVariable(token.getLexeme()) == null&& tokenIsAnUninitializedVariable(token) == false && this.last3TokensIsDeclarationOrOperation[2] == null || this.currentScope.getVariable(last3TokensIsDeclarationOrOperation[0].getLexeme()) == null && tokenIsAnUninitializedVariable(token) && token.getLexeme().equals("=") ) {
+				throw new Exception("Variable does not exist '" + last3TokensIsDeclarationOrOperation[0].getLexeme() + "'");
+			} 
 			return;
-		} else if (this.state == 0) {
+		}
+		
+		 else if (this.state == 0) {
 			checkIfIsDeclarationOrOparation(token);
 			return;
 		} 
+
+
+
 		executeCurrentState(token);
+	}
+
+	private boolean isAnReassignment() {
+		if (last3TokensIsDeclarationOrOperation[1] == null || last3TokensIsDeclarationOrOperation[0] == null) {
+			return false;
+		}
+		return last3TokensIsDeclarationOrOperation[0].getType() == 3 && last3TokensIsDeclarationOrOperation[1].getType() == 8 && last3TokensIsDeclarationOrOperation[2] == null;
 	}
 
 	private boolean isAnCloseKey(Token token) {
@@ -72,7 +113,8 @@ public class Semantic {
 
 	public boolean tokenIsAnUninitializedVariable(Token currentToken) {
 		for (SDeclarationChecker sDeclarationChecker : declarationCheckers) {
-			if (sDeclarationChecker.getCurrentDeclarationName().equals(currentToken.getLexeme())) {
+			String name = sDeclarationChecker.getCurrentDeclarationName();
+			if (name.equals(currentToken.getLexeme()) && currentSDeclarationChecker.getSemanticSubject().last3TokensIsDeclarationOrOperation[2].getType() < 3) {
 				this.currentSDeclarationChecker = sDeclarationChecker;
 				return true;
 			}
@@ -82,15 +124,15 @@ public class Semantic {
 
 	public void addTokensForDecisionMaking(Token currentToken) {
 
-		if (last2TokensIsDeclarationOrOperation[0] == null) {
-			last2TokensIsDeclarationOrOperation[0] = currentToken;
+		if (last3TokensIsDeclarationOrOperation[0] == null) {
+			last3TokensIsDeclarationOrOperation[0] = currentToken;
 		} else {
-			last2TokensIsDeclarationOrOperation[1] = currentToken;
+			last3TokensIsDeclarationOrOperation[1] = currentToken;
 		}
 	}
 
 	public boolean theDecisionMakingArrayIsFull() {
-		return !(last2TokensIsDeclarationOrOperation[1] == null);
+		return !(last3TokensIsDeclarationOrOperation[1] == null);
 	}
 
 	public void checkIfIsDeclarationOrOparation(Token token) throws Exception {
@@ -107,8 +149,8 @@ public class Semantic {
 	}
 
 	private boolean isOperation() {
-		if(last2TokensIsDeclarationOrOperation[1] != null) {
-			return last2TokensIsDeclarationOrOperation[1].getType() == 5 || last2TokensIsDeclarationOrOperation[1].getType() == 4 ;
+		if(last3TokensIsDeclarationOrOperation[1] != null) {
+			return last3TokensIsDeclarationOrOperation[1].getType() == 5 || last3TokensIsDeclarationOrOperation[1].getType() == 4 ;
 		}
 		return false;
 	}
@@ -160,18 +202,16 @@ public class Semantic {
 	}
 
 	public void clearDecisionMakingArray() {
-		this.last2TokensIsDeclarationOrOperation = new Token[2];
+		this.last3TokensIsDeclarationOrOperation = new Token[3];
 	}
 	
 	public void executeStateOnlast2Tokens() throws Exception {
 		
-		if(!tokenIsAnUninitializedVariable(last2TokensIsDeclarationOrOperation[0])) {
-			executeCurrentState(last2TokensIsDeclarationOrOperation[0]);
+		if(last3TokensIsDeclarationOrOperation[0] != null) {
+			executeCurrentState(last3TokensIsDeclarationOrOperation[0]);
 		}
-		if(last2TokensIsDeclarationOrOperation[1] != null){
-			executeCurrentState(last2TokensIsDeclarationOrOperation[1]);
+		if(last3TokensIsDeclarationOrOperation[1] != null){
+			executeCurrentState(last3TokensIsDeclarationOrOperation[1]);
 		}
-
 	}
-
 }
